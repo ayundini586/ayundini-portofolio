@@ -60,6 +60,43 @@ window.portfolioProjects = [
   },
 
   {
+  slug: "customer-behavior-marketing-analytics",
+  title: "Customer Behavior & Marketing Analytics",
+  category: "Data Analytics / Marketing Analytics",
+  type: "Group project · Data Analysis & Modeling",
+
+  description: "A Python-based data analytics project exploring customer spending, purchasing patterns, loyalty behavior, and order cancellations in electronics retail.",
+
+  detailOverview: "This project analyzes 20,000 electronics retail transactions from 12,136 customers using exploratory data analysis, statistical analysis, and baseline machine learning models to understand spending behavior and evaluate whether available customer and transaction features can distinguish completed and cancelled orders.",
+
+  detailHeading: "What we analyzed",
+  detailItems: [
+    "Customer spending and purchasing patterns",
+    "Product, payment, and seasonal sales trends",
+    "Customer loyalty and transaction behavior",
+    "Order cancellation patterns and predictive modeling"
+  ],
+
+  contribution: "Supported exploratory data analysis and customer behavior analysis, assisted with data preprocessing, and contributed to model testing and interpretation of results.",
+
+  technologies: [
+  "Python",
+  "Pandas",
+  "Scikit-learn",
+  "XGBoost",
+  "Jupyter"
+],
+
+  image: "assets/projects/customer-analysis.png",
+  imageAlt: "Customer Behavior and Marketing Analytics project analysis",
+
+  repository: "https://github.com/ayundini586/customer-behavior-marketing-analysis",
+
+  featured: false,
+  theme: "lavender"
+},
+
+  {
     slug: "employee-attrition-tableau-dashboard",
     title: "Employee Attrition HR Analytics",
     category: "Data Visualization / HR Analytics",
@@ -163,6 +200,9 @@ window.portfolioProjects = [
     imageAlt: "MyFood Plus recipe recommendation and meal planning interface",
 
     repository: "https://github.com/ayundini586/myfood-plus",
+
+    demo: "https://myfood-plus-mobile.vercel.app/",
+    demoLabel: "View live app",
 
     featured: false,
     theme: "cream"

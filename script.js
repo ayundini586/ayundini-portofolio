@@ -48,7 +48,6 @@ const escapeHTML = (value = "") =>
 
 const renderProjectLink = (project) => {
   const href = project.demo || project.repository;
-
   const label = project.demo
     ? (project.demoLabel || "Open live website")
     : "View repository";
@@ -62,7 +61,8 @@ const renderProjectLink = (project) => {
     >
       ${escapeHTML(label)}
       <span aria-hidden="true">↗</span>
-    </a>`;
+    </a>
+  `;
 };
 
 
@@ -74,13 +74,39 @@ const renderDetailButton = (project) => `
   >
     View project details
     <span aria-hidden="true">↗</span>
-  </button>`;
+  </button>
+`;
+
+
+/* PROJECT TOOLS / STACK */
+const renderProjectTechStack = (project) => {
+  const technologies = Array.isArray(project.technologies)
+    ? project.technologies
+    : [];
+
+  if (!technologies.length) return "";
+
+  return `
+    <div class="project-tech-stack" aria-label="Tools used">
+      ${technologies
+        .map(
+          (technology) => `
+            <span class="project-tech-tag">
+              ${escapeHTML(technology)}
+            </span>
+          `
+        )
+        .join("")}
+    </div>
+  `;
+};
 
 
 /* FEATURED PROJECT */
 if (featuredProject && featuredContainer) {
   featuredContainer.innerHTML = `
     <article class="featured-project reveal">
+
       <div class="featured-copy">
 
         <div class="project-kicker">
@@ -96,6 +122,8 @@ if (featuredProject && featuredContainer) {
           ${escapeHTML(featuredProject.description)}
         </p>
 
+        ${renderProjectTechStack(featuredProject)}
+
         <div class="project-actions">
           ${renderDetailButton(featuredProject)}
           ${renderProjectLink(featuredProject)}
@@ -104,7 +132,9 @@ if (featuredProject && featuredContainer) {
       </div>
 
       <div class="featured-visual">
+
         <div class="featured-image-wrap">
+
           <img
             src="${escapeHTML(featuredProject.image)}"
             alt="${escapeHTML(featuredProject.imageAlt)}"
@@ -112,13 +142,17 @@ if (featuredProject && featuredContainer) {
             width="1425"
             height="800"
           />
+
         </div>
+
       </div>
-    </article>`;
+
+    </article>
+  `;
 }
 
 
-/* OTHER PROJECTS */
+/* PROJECT GRID */
 if (projectGrid) {
   projectGrid.innerHTML = projects
     .filter((project) => !project.featured)
@@ -130,6 +164,7 @@ if (projectGrid) {
         >
 
           <div class="project-media">
+
             <img
               src="${escapeHTML(project.image)}"
               alt="${escapeHTML(project.imageAlt)}"
@@ -137,6 +172,7 @@ if (projectGrid) {
               width="1600"
               height="900"
             />
+
           </div>
 
           <div class="project-card-body">
@@ -154,13 +190,17 @@ if (projectGrid) {
               ${escapeHTML(project.description)}
             </p>
 
+            ${renderProjectTechStack(project)}
+
             <div class="project-actions">
               ${renderDetailButton(project)}
               ${renderProjectLink(project)}
             </div>
 
           </div>
-        </article>`
+
+        </article>
+      `
     )
     .join("");
 }
@@ -178,48 +218,6 @@ const openProjectPreview = (slug) => {
 
   if (!project || !projectDialog || !projectDialogContent) return;
 
-
-  /*
-    The modal uses dedicated detail content when available.
-    This keeps the short card description separate from
-    the more detailed project explanation.
-  */
-
-  const overview =
-    project.detailOverview || project.description;
-
-
-  const detailItems =
-    Array.isArray(project.detailItems)
-      ? project.detailItems
-      : [];
-
-
-  const detailSection = detailItems.length
-    ? `
-      <div class="project-dialog-analysis">
-
-        <strong>
-          ${escapeHTML(
-            project.detailHeading || "Project details"
-          )}
-        </strong>
-
-        <ul>
-          ${detailItems
-            .map(
-              (item) => `
-                <li>${escapeHTML(item)}</li>
-              `
-            )
-            .join("")}
-        </ul>
-
-      </div>
-    `
-    : "";
-
-
   projectDialogContent.innerHTML = `
     <button
       class="project-dialog-close"
@@ -230,14 +228,14 @@ const openProjectPreview = (slug) => {
       ×
     </button>
 
-
     <div class="project-dialog-image">
+
       <img
         src="${escapeHTML(project.image)}"
         alt="${escapeHTML(project.imageAlt)}"
       />
-    </div>
 
+    </div>
 
     <div class="project-dialog-copy">
 
@@ -245,75 +243,25 @@ const openProjectPreview = (slug) => {
         ${escapeHTML(project.category)}
       </p>
 
-
       <h2 id="project-dialog-title">
         ${escapeHTML(project.title)}
       </h2>
 
-
-      <div class="project-dialog-overview">
-
-        <strong>Overview</strong>
-
-        <p>
-          ${escapeHTML(overview)}
-        </p>
-
-      </div>
-
-
-      ${detailSection}
-
+      <p>
+        ${escapeHTML(project.description)}
+      </p>
 
       <div class="project-dialog-details">
 
         <p>
           <strong>My contribution</strong>
-
           ${escapeHTML(project.contribution)}
         </p>
-
-
-        <p>
-          <strong>Tools used</strong>
-
-          ${project.technologies
-            .map(escapeHTML)
-            .join(" · ")}
-        </p>
-
-      </div>
-
-
-      <div class="project-dialog-actions">
-
-        <a
-          class="project-live-link"
-          href="${escapeHTML(
-            project.demo || project.repository
-          )}"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-
-          ${escapeHTML(
-            project.demo
-              ? (
-                  project.demoLabel ||
-                  "Open live website"
-                )
-              : "View repository"
-          )}
-
-          <span aria-hidden="true">↗</span>
-
-        </a>
 
       </div>
 
     </div>
   `;
-
 
   projectDialog.showModal();
 };
@@ -321,17 +269,15 @@ const openProjectPreview = (slug) => {
 
 /* PROJECT DETAIL EVENTS */
 document.addEventListener("click", (event) => {
-
-  const previewButton =
-    event.target.closest("[data-project-preview]");
-
+  const previewButton = event.target.closest(
+    "[data-project-preview]"
+  );
 
   if (previewButton) {
     openProjectPreview(
       previewButton.dataset.projectPreview
     );
   }
-
 
   if (
     event.target.closest(
@@ -340,33 +286,27 @@ document.addEventListener("click", (event) => {
   ) {
     projectDialog?.close();
   }
-
 });
 
 
 projectDialog?.addEventListener("click", (event) => {
-
   if (event.target === projectDialog) {
     projectDialog.close();
   }
-
 });
 
 
 /* HERO */
-const reduceMotion = window.matchMedia(
-  "(prefers-reduced-motion: reduce)"
-).matches;
-
+const reduceMotion = window
+  .matchMedia("(prefers-reduced-motion: reduce)")
+  .matches;
 
 if (!reduceMotion && window.gsap) {
-
   const intro = gsap.timeline({
     defaults: {
       ease: "power3.out"
     }
   });
-
 
   intro
     .from(".eyebrow", {
@@ -460,8 +400,6 @@ if (!reduceMotion && window.gsap) {
     );
 
 
-  /* HERO FLOATING ANIMATIONS */
-
   gsap.to(".blob-blue", {
     x: 18,
     y: -12,
@@ -470,7 +408,6 @@ if (!reduceMotion && window.gsap) {
     yoyo: true,
     ease: "sine.inOut"
   });
-
 
   gsap.to(".blob-lavender", {
     x: 14,
@@ -481,7 +418,6 @@ if (!reduceMotion && window.gsap) {
     ease: "sine.inOut"
   });
 
-
   gsap.to(".orbit-one", {
     rotate: 360,
     duration: 26,
@@ -490,7 +426,6 @@ if (!reduceMotion && window.gsap) {
     transformOrigin: "50% 50%"
   });
 
-
   gsap.to(".orbit-two", {
     rotate: -360,
     duration: 34,
@@ -498,7 +433,6 @@ if (!reduceMotion && window.gsap) {
     ease: "none",
     transformOrigin: "50% 50%"
   });
-
 
   gsap.to(".connection-path", {
     strokeDashoffset: -26,
@@ -510,45 +444,34 @@ if (!reduceMotion && window.gsap) {
 
 
   /* SCROLL REVEALS */
-
   if (window.ScrollTrigger) {
-
     gsap.registerPlugin(ScrollTrigger);
 
-
-    gsap.utils
-      .toArray(".reveal")
-      .forEach((element) => {
-
-        gsap.from(element, {
-          y: 28,
-          opacity: 0,
-          duration: 0.75,
-          ease: "power3.out",
-
-          scrollTrigger: {
-            trigger: element,
-            start: "top 84%",
-            once: true
-          }
-        });
-
+    gsap.utils.toArray(".reveal").forEach((element) => {
+      gsap.from(element, {
+        y: 28,
+        opacity: 0,
+        duration: 0.75,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: element,
+          start: "top 84%",
+          once: true
+        }
       });
+    });
 
 
     gsap.fromTo(
       ".about-glow-blue",
-
       {
         x: 0,
         y: 0
       },
-
       {
         x: -35,
         y: 18,
         ease: "none",
-
         scrollTrigger: {
           trigger: ".about-section",
           start: "top bottom",
@@ -557,74 +480,44 @@ if (!reduceMotion && window.gsap) {
         }
       }
     );
-
   }
-
 }
 
 
 /* DATABASE VISUAL */
-const dataStage = document.querySelector(
-  "[data-data-stage]"
-);
-
+const dataStage = document.querySelector("[data-data-stage]");
 const depthItems =
   dataStage?.querySelectorAll("[data-depth]") ?? [];
-
 
 if (
   !reduceMotion &&
   dataStage &&
   window.matchMedia("(pointer: fine)").matches
 ) {
+  dataStage.addEventListener("pointermove", (event) => {
+    const bounds = dataStage.getBoundingClientRect();
 
-  dataStage.addEventListener(
-    "pointermove",
-    (event) => {
+    const x =
+      (event.clientX - bounds.left) / bounds.width - 0.5;
 
-      const bounds =
-        dataStage.getBoundingClientRect();
+    const y =
+      (event.clientY - bounds.top) / bounds.height - 0.5;
 
+    depthItems.forEach((item) => {
+      const depth = Number(
+        item.dataset.depth || 10
+      );
 
-      const x =
-        (event.clientX - bounds.left) /
-          bounds.width -
-        0.5;
-
-
-      const y =
-        (event.clientY - bounds.top) /
-          bounds.height -
-        0.5;
-
-
-      depthItems.forEach((item) => {
-
-        const depth =
-          Number(item.dataset.depth || 10);
+      item.style.transform =
+        `translate3d(${x * depth}px, ${y * depth}px, 0)`;
+    });
+  });
 
 
-        item.style.transform =
-          `translate3d(${x * depth}px, ${y * depth}px, 0)`;
-
-      });
-
-    }
-  );
-
-
-  dataStage.addEventListener(
-    "pointerleave",
-    () => {
-
-      depthItems.forEach((item) => {
-
-        item.style.transform =
-          "translate3d(0, 0, 0)";
-
-      });
-
-    }
-  );
-
+  dataStage.addEventListener("pointerleave", () => {
+    depthItems.forEach((item) => {
+      item.style.transform =
+        "translate3d(0, 0, 0)";
+    });
+  });
 }
