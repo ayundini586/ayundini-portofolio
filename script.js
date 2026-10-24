@@ -1,523 +1,314 @@
-/* NAVBAR */
-const header = document.querySelector("[data-header]");
-const menuToggle = document.querySelector(".menu-toggle");
-const navMenu = document.querySelector("[data-nav-menu]");
 
-const updateHeader = () => header?.classList.toggle("scrolled", window.scrollY > 20);
-updateHeader();
-window.addEventListener("scroll", updateHeader, { passive: true });
-
-menuToggle?.addEventListener("click", () => {
-  const open = menuToggle.getAttribute("aria-expanded") === "true";
-  menuToggle.setAttribute("aria-expanded", String(!open));
-  navMenu?.classList.toggle("open", !open);
-  document.body.style.overflow = open ? "" : "hidden";
-});
-
-navMenu?.querySelectorAll("a").forEach((link) => {
-  link.addEventListener("click", () => {
-    menuToggle?.setAttribute("aria-expanded", "false");
-    navMenu.classList.remove("open");
-    document.body.style.overflow = "";
-  });
-});
-
-document.querySelectorAll('[aria-disabled="true"]').forEach((link) => {
-  link.addEventListener("click", (event) => event.preventDefault());
-});
-
-
-/* PROJECTS */
-const projects = Array.isArray(window.portfolioProjects)
-  ? window.portfolioProjects
-  : [];
-
-const featuredProject = projects.find((project) => project.featured);
-const projectGrid = document.querySelector("#project-grid");
-const featuredContainer = document.querySelector("#featured-project");
-
-const escapeHTML = (value = "") =>
-  String(value).replace(/[&<>'"]/g, (character) => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    "'": "&#39;",
-    '"': "&quot;"
-  }[character]));
-
-
-const renderProjectLink = (project) => {
-  const href = project.demo || project.repository;
-  const label = project.demo
-    ? (project.demoLabel || "Open live website")
-    : "View repository";
-
-  return `
-    <a
-      class="project-source-link"
-      href="${escapeHTML(href)}"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      ${escapeHTML(label)}
-      <span aria-hidden="true">↗</span>
-    </a>
-  `;
-};
-
-
-const renderDetailButton = (project) => `
-  <button
-    class="project-detail-button"
-    type="button"
-    data-project-preview="${escapeHTML(project.slug)}"
-  >
-    View project details
-    <span aria-hidden="true">↗</span>
-  </button>
-`;
-
-
-/* PROJECT TOOLS / STACK */
-const renderProjectTechStack = (project) => {
-  const technologies = Array.isArray(project.technologies)
-    ? project.technologies
-    : [];
-
-  if (!technologies.length) return "";
-
-  return `
-    <div class="project-tech-stack" aria-label="Tools used">
-      ${technologies
-        .map(
-          (technology) => `
-            <span class="project-tech-tag">
-              ${escapeHTML(technology)}
-            </span>
-          `
-        )
-        .join("")}
-    </div>
-  `;
-};
-
-
-/* FEATURED PROJECT */
-if (featuredProject && featuredContainer) {
-  featuredContainer.innerHTML = `
-    <article class="featured-project reveal">
-
-      <div class="featured-copy">
-
-        <div class="project-kicker">
-          <span>Featured / 01</span>
-          <span>${escapeHTML(featuredProject.type)}</span>
-        </div>
-
-        <h3 class="project-title">
-          ${escapeHTML(featuredProject.title)}
-        </h3>
-
-        <p class="project-description">
-          ${escapeHTML(featuredProject.description)}
-        </p>
-
-        ${renderProjectTechStack(featuredProject)}
-
-        <div class="project-actions">
-          ${renderDetailButton(featuredProject)}
-          ${renderProjectLink(featuredProject)}
-        </div>
-
-      </div>
-
-      <div class="featured-visual">
-
-        <div class="featured-image-wrap">
-
-          <img
-            src="${escapeHTML(featuredProject.image)}"
-            alt="${escapeHTML(featuredProject.imageAlt)}"
-            loading="lazy"
-            width="1425"
-            height="800"
-          />
-
-        </div>
-
-      </div>
-
-    </article>
-  `;
-}
-
-
-/* PROJECT GRID */
-if (projectGrid) {
-  projectGrid.innerHTML = projects
-    .filter((project) => !project.featured)
-    .map(
-      (project, index) => `
-        <article
-          class="project-card reveal"
-          data-theme="${escapeHTML(project.theme)}"
-        >
-
-          <div class="project-media">
-
-            <img
-              src="${escapeHTML(project.image)}"
-              alt="${escapeHTML(project.imageAlt)}"
-              loading="lazy"
-              width="1600"
-              height="900"
-            />
-
-          </div>
-
-          <div class="project-card-body">
-
-            <div class="project-kicker">
-              <span>0${index + 2}</span>
-              <span>${escapeHTML(project.type)}</span>
-            </div>
-
-            <h3 class="project-title">
-              ${escapeHTML(project.title)}
-            </h3>
-
-            <p class="project-description">
-              ${escapeHTML(project.description)}
-            </p>
-
-            ${renderProjectTechStack(project)}
-
-            <div class="project-actions">
-              ${renderDetailButton(project)}
-              ${renderProjectLink(project)}
-            </div>
-
-          </div>
-
-        </article>
-      `
-    )
-    .join("");
-}
-
-
-/* PROJECT DETAIL MODAL */
-const projectDialog = document.querySelector("#project-dialog");
-const projectDialogContent = document.querySelector(
-  "#project-dialog-content"
-);
-
-
-const openProjectPreview = (slug) => {
-  const project = projects.find((item) => item.slug === slug);
-
-  if (!project || !projectDialog || !projectDialogContent) return;
-
-  projectDialogContent.innerHTML = `
-    <button
-      class="project-dialog-close"
-      type="button"
-      data-project-dialog-close
-      aria-label="Close project preview"
-    >
-      ×
-    </button>
-
-    <div class="project-dialog-image">
-
-      <img
-        src="${escapeHTML(project.image)}"
-        alt="${escapeHTML(project.imageAlt)}"
-      />
-
-    </div>
-
-    <div class="project-dialog-copy">
-
-      <p class="project-dialog-category">
-        ${escapeHTML(project.category)}
-      </p>
-
-      <h2 id="project-dialog-title">
-        ${escapeHTML(project.title)}
-      </h2>
-
-      <p>
-        ${escapeHTML(project.description)}
-      </p>
-
-      <div class="project-dialog-details">
-
-        <p>
-          <strong>My contribution</strong>
-          ${escapeHTML(project.contribution)}
-        </p>
-
-      </div>
-
-    </div>
-  `;
-
-  projectDialog.showModal();
-};
-
-
-/* PROJECT DETAIL EVENTS */
-document.addEventListener("click", (event) => {
-  const previewButton = event.target.closest(
-    "[data-project-preview]"
+/* ===== THEME ===== */
+
+const body = document.body;
+const themeBtn = document.getElementById("themeBtn");
+
+themeBtn.addEventListener("click", () => {
+  body.classList.toggle("night");
+
+  const night = body.classList.contains("night");
+
+  document.documentElement.style.setProperty(
+    "--paper", night ? "#0e1520" : "#f1eee6"
+  );
+  document.documentElement.style.setProperty(
+    "--panel", night ? "#151e2b" : "#fbfaf6"
+  );
+  document.documentElement.style.setProperty(
+    "--ink", night ? "#f7f6f0" : "#101827"
+  );
+  document.documentElement.style.setProperty(
+    "--line", night ? "#2d3949" : "#d9d5ca"
   );
 
-  if (previewButton) {
-    openProjectPreview(
-      previewButton.dataset.projectPreview
-    );
-  }
-
-  if (
-    event.target.closest(
-      "[data-project-dialog-close]"
-    )
-  ) {
-    projectDialog?.close();
-  }
+  themeBtn.textContent = night ? "☾" : "☼";
+  themeBtn.setAttribute(
+    "aria-label",
+    night ? "Switch to light mode" : "Switch to dark mode"
+  );
 });
 
 
-projectDialog?.addEventListener("click", (event) => {
-  if (event.target === projectDialog) {
-    projectDialog.close();
-  }
-});
+/* ===== ACTIVE NAVIGATION ===== */
 
+const navLinks = [
+  ...document.querySelectorAll('.navlinks a[href^="#"]')
+];
 
-/* HERO */
-const reduceMotion = window
-  .matchMedia("(prefers-reduced-motion: reduce)")
-  .matches;
+const sections = navLinks
+  .map(link => document.querySelector(link.getAttribute("href")))
+  .filter(Boolean);
 
-if (!reduceMotion && window.gsap) {
-  const intro = gsap.timeline({
-    defaults: {
-      ease: "power3.out"
-    }
+function updateActiveNav() {
+  const marker = window.scrollY + 140;
+  let current = sections[0];
+
+  sections.forEach(section => {
+    if (section.offsetTop <= marker) current = section;
   });
 
-  intro
-    .from(".eyebrow", {
-      y: 18,
-      opacity: 0,
-      duration: 0.5
-    })
+  if (!current) return;
 
-    .from(
-      ".hero-title .word",
-      {
-        yPercent: 115,
-        opacity: 0,
-        duration: 0.78,
-        stagger: 0.09
-      },
-      "-=0.28"
-    )
-
-    .from(
-      ".hero-intro",
-      {
-        y: 18,
-        opacity: 0,
-        duration: 0.5
-      },
-      "-=0.45"
-    )
-
-    .from(
-      ".hero-actions",
-      {
-        y: 16,
-        opacity: 0,
-        duration: 0.45
-      },
-      "-=0.3"
-    )
-
-    .from(
-      ".availability",
-      {
-        y: 12,
-        opacity: 0,
-        duration: 0.4
-      },
-      "-=0.25"
-    )
-
-    .from(
-      ".data-stage",
-      {
-        scale: 0.94,
-        x: 24,
-        opacity: 0,
-        duration: 0.8
-      },
-      0.18
-    )
-
-    .from(
-      ".data-node, .warehouse",
-      {
-        scale: 0.7,
-        opacity: 0,
-        duration: 0.45,
-        stagger: 0.08
-      },
-      0.55
-    )
-
-    .from(
-      ".connection-path",
-      {
-        strokeDashoffset: 70,
-        opacity: 0,
-        duration: 0.7,
-        stagger: 0.08
-      },
-      0.5
-    )
-
-    .from(
-      ".blob",
-      {
-        scale: 0.8,
-        opacity: 0,
-        duration: 1
-      },
-      0
+  navLinks.forEach(link => {
+    link.classList.toggle(
+      "active",
+      link.getAttribute("href") === `#${current.id}`
     );
-
-
-  gsap.to(".blob-blue", {
-    x: 18,
-    y: -12,
-    duration: 7,
-    repeat: -1,
-    yoyo: true,
-    ease: "sine.inOut"
   });
-
-  gsap.to(".blob-lavender", {
-    x: 14,
-    y: -8,
-    duration: 9,
-    repeat: -1,
-    yoyo: true,
-    ease: "sine.inOut"
-  });
-
-  gsap.to(".orbit-one", {
-    rotate: 360,
-    duration: 26,
-    repeat: -1,
-    ease: "none",
-    transformOrigin: "50% 50%"
-  });
-
-  gsap.to(".orbit-two", {
-    rotate: -360,
-    duration: 34,
-    repeat: -1,
-    ease: "none",
-    transformOrigin: "50% 50%"
-  });
-
-  gsap.to(".connection-path", {
-    strokeDashoffset: -26,
-    duration: 3.2,
-    repeat: -1,
-    ease: "none",
-    stagger: 0.3
-  });
-
-
-  /* SCROLL REVEALS */
-  if (window.ScrollTrigger) {
-    gsap.registerPlugin(ScrollTrigger);
-
-    gsap.utils.toArray(".reveal").forEach((element) => {
-      gsap.from(element, {
-        y: 28,
-        opacity: 0,
-        duration: 0.75,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: element,
-          start: "top 84%",
-          once: true
-        }
-      });
-    });
-
-
-    gsap.fromTo(
-      ".about-glow-blue",
-      {
-        x: 0,
-        y: 0
-      },
-      {
-        x: -35,
-        y: 18,
-        ease: "none",
-        scrollTrigger: {
-          trigger: ".about-section",
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1.1
-        }
-      }
-    );
-  }
 }
 
+window.addEventListener("scroll", updateActiveNav, {
+  passive: true
+});
 
-/* DATABASE VISUAL */
-const dataStage = document.querySelector("[data-data-stage]");
-const depthItems =
-  dataStage?.querySelectorAll("[data-depth]") ?? [];
+updateActiveNav();
 
-if (
-  !reduceMotion &&
-  dataStage &&
-  window.matchMedia("(pointer: fine)").matches
-) {
-  dataStage.addEventListener("pointermove", (event) => {
-    const bounds = dataStage.getBoundingClientRect();
 
-    const x =
-      (event.clientX - bounds.left) / bounds.width - 0.5;
+/* ===== BLOCK BLAST PHOTO REVEAL ===== */
 
-    const y =
-      (event.clientY - bounds.top) / bounds.height - 0.5;
+(() => {
+  const about = document.getElementById("about");
+  const frame = document.getElementById("photoReveal");
+  const overlay = document.getElementById("tetrominoBuild");
+  const photo = frame?.querySelector(".about-photo-img");
 
-    depthItems.forEach((item) => {
-      const depth = Number(
-        item.dataset.depth || 10
+  if (!about || !frame || !overlay || !photo) return;
+
+  const COLORS = [
+    "#E28B82",
+    "#E8D37A",
+    "#95B2DE",
+    "#9FCBBD",
+    "#AD98D8"
+  ];
+
+  const pieces = [];
+
+  // Dua bentuk L saling mengunci dalam area 4x2
+  function addLPair(x, y) {
+    pieces.push(
+      [
+        [x, y], [x + 1, y],
+        [x + 2, y], [x, y + 1]
+      ],
+      [
+        [x + 3, y], [x + 1, y + 1],
+        [x + 2, y + 1], [x + 3, y + 1]
+      ]
+    );
+  }
+
+  // Dua bentuk I mengisi area 4x2
+  function addIPair(x, y) {
+    pieces.push(
+      [
+        [x, y], [x + 1, y],
+        [x + 2, y], [x + 3, y]
+      ],
+      [
+        [x, y + 1], [x + 1, y + 1],
+        [x + 2, y + 1], [x + 3, y + 1]
+      ]
+    );
+  }
+
+  // Empat bentuk T saling mengunci dalam area 4x4
+  function addTGroup(x) {
+    pieces.push(
+      [
+        [x, 0], [x + 1, 0],
+        [x + 2, 0], [x + 1, 1]
+      ],
+      [
+        [x + 3, 0], [x + 2, 1],
+        [x + 3, 1], [x + 3, 2]
+      ],
+      [
+        [x, 1], [x, 2],
+        [x + 1, 2], [x, 3]
+      ],
+      [
+        [x + 2, 2], [x + 1, 3],
+        [x + 2, 3], [x + 3, 3]
+      ]
+    );
+  }
+
+  // Susunan bawah dulu, seperti permainan Tetris
+  addLPair(0, 8);
+  addIPair(4, 8);
+
+  addIPair(0, 6);
+  addLPair(4, 6);
+
+  addLPair(0, 4);
+  addIPair(4, 4);
+
+  addTGroup(0);
+  addTGroup(4);
+
+  // 20 tetromino, 80 kotak, tanpa celah
+  
+/* URUTAN TETRIS: L -> T -> I */
+
+function getPieceType(cells) {
+  const xs = cells.map(([x]) => x);
+  const ys = cells.map(([, y]) => y);
+
+  // Bentuk I: empat kotak lurus
+  if (
+    Math.max(...xs) - Math.min(...xs) === 3 ||
+    Math.max(...ys) - Math.min(...ys) === 3
+  ) {
+    return "I";
+  }
+
+  // Bentuk T: tiga kotak sejajar, satu di tengah
+  const row = [...new Set(ys)].find(y =>
+    cells.filter(cell => cell[1] === y).length === 3
+  );
+
+  if (row !== undefined) {
+    const trio = cells
+      .filter(cell => cell[1] === row)
+      .map(cell => cell[0])
+      .sort((a, b) => a - b);
+
+    const stem = cells.find(cell => cell[1] !== row);
+
+    if (stem && stem[0] === trio[1]) {
+      return "T";
+    }
+  }
+
+  return "L";
+}
+
+const DROP_MS = 460;
+
+// L muncul terlebih dahulu, baru T, lalu I
+const phaseStart = {
+  L: 0,
+  T: 460,
+  I: 820
+};
+
+const withinPhase = { L: 0, T: 0, I: 0 };
+
+const timeline = ["L", "T", "I"].flatMap(type =>
+  pieces
+    .filter(cells => getPieceType(cells) === type)
+    .map(cells => ({
+      cells,
+      delay: phaseStart[type] +
+        (withinPhase[type]++) * 28
+    }))
+);
+
+const REVEAL_MS =
+  Math.max(...timeline.map(piece => piece.delay)) +
+  DROP_MS;
+
+
+  let timers = [];
+  let wasVisible = false;
+
+  function play() {
+    if (!photo.complete || !photo.naturalWidth) return;
+
+    timers.forEach(clearTimeout);
+    timers = [];
+
+    frame.classList.remove("revealed", "clearing");
+    overlay.replaceChildren();
+
+    timeline.forEach(({ cells, delay }, index) => {
+      const piece = document.createElement("div");
+      piece.className = "blast-piece";
+
+      piece.style.setProperty("--delay", `${delay}ms`);
+
+      piece.style.setProperty(
+        "--piece-color",
+        COLORS[index % COLORS.length]
       );
 
-      item.style.transform =
-        `translate3d(${x * depth}px, ${y * depth}px, 0)`;
-    });
-  });
+      cells.forEach(([x, y]) => {
+        const cell = document.createElement("span");
+        cell.className = "blast-cell";
 
+        cell.style.left = `${x * 12.5}%`;
+        cell.style.top = `${y * 10}%`;
 
-  dataStage.addEventListener("pointerleave", () => {
-    depthItems.forEach((item) => {
-      item.style.transform =
-        "translate3d(0, 0, 0)";
+        piece.appendChild(cell);
+      });
+
+      overlay.appendChild(piece);
     });
-  });
+
+    // Semua blok sudah rapat: langsung reveal foto
+    timers.push(setTimeout(() => {
+      frame.classList.add("revealed", "clearing");
+    }, REVEAL_MS));
+
+    
+/* Bersihkan blok setelah crossfade selesai */
+timers.push(setTimeout(() => {
+  overlay.replaceChildren();
+  frame.classList.remove("clearing");
+}, REVEAL_MS + 700));
+
+  }
+
+  function start() {
+    if (photo.complete && photo.naturalWidth) {
+      play();
+    } else if (!photo.complete) {
+      photo.addEventListener("load", play, { once: true });
+    }
+  }
+
+  if (window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches) {
+    frame.classList.add("revealed");
+    return;
+  }
+
+  // Otomatis saat About terlihat
+  const observer = new IntersectionObserver(([entry]) => {
+    const visible =
+      entry.isIntersecting &&
+      entry.intersectionRatio >= 0.3;
+
+    if (visible && !wasVisible) {
+      wasVisible = true;
+      start();
+    }
+
+    
+if (!visible) {
+  wasVisible = false;
+
+  // Siapkan frame untuk kunjungan About berikutnya
+  timers.forEach(clearTimeout);
+  timers = [];
+
+  frame.classList.remove("revealed", "clearing");
+  overlay.replaceChildren();
 }
+
+  }, {
+    threshold: [0, 0.3, 0.55]
+  });
+
+  observer.observe(about);
+
+  // Klik About lagi saat sudah di About = replay
+  document.querySelectorAll('a[href="#about"]').forEach(link => {
+    link.addEventListener("click", () => {
+      if (wasVisible) start();
+    });
+  });
+})();

@@ -1,387 +1,1403 @@
+
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Ayundini Nursyahrin — Computer Science student focused on data engineering, analytics, and business intelligence." />
-    <meta name="theme-color" content="#f7f8fc" />
-    <title>Ayundini Nursyahrin — Portfolio</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%234F6EF7'/%3E%3Cellipse cx='32' cy='21' rx='17' ry='7' fill='none' stroke='white' stroke-width='4'/%3E%3Cpath d='M15 21v22c0 4 7.6 7 17 7s17-3 17-7V21M15 32c0 4 7.6 7 17 7s17-3 17-7' fill='none' stroke='white' stroke-width='4'/%3E%3C/svg%3E" />
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body id="top">
-    <a class="skip-link" href="#main-content">Skip to content</a>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scattered Pieces — Portfolio</title>
 
-    <header class="site-header" data-header>
-      <nav class="nav shell" aria-label="Primary navigation">
-        <a class="brand" href="#top" aria-label="Ayundini Nursyahrin, home">
-          <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
-          <span>AYUNDINI NURSYAHRIN</span>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="flow.css">
+
+  <style>
+    /* ==========================================
+       PROJECTS — BUILT & EXPLORED
+       Scoped styling: only Projects affected
+       ========================================== */
+
+    #projects {
+      scroll-margin-top: 70px;
+    }
+
+    
+#projects .sp-title {
+  margin: 0 0 32px;
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(42px, 3.8vw, 68px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -1.5px;
+  text-align: left;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+
+    /* FILTER BUTTONS */
+
+    .sp-filters {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .sp-filter {
+      padding: 12px 17px;
+      border: 2px solid var(--ink);
+      border-radius: 0;
+      background: var(--panel);
+      color: var(--ink);
+
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .01em;
+      cursor: pointer;
+
+      transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease,
+        box-shadow .2s ease;
+    }
+
+    .sp-filter:hover {
+      transform: translateY(-2px);
+      box-shadow: 3px 3px 0 #95b2de;
+    }
+
+    .sp-filter.active {
+      background: var(--ink);
+      color: var(--panel);
+      box-shadow: 4px 4px 0 #95b2de;
+    }
+
+    /* PROJECT GRID */
+
+    .sp-project-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 26px;
+      align-items: stretch;
+    }
+
+    /* PROJECT CARD */
+
+    .sp-project-card {
+      --card-accent: #c7d9f2;
+
+      position: relative;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+
+      padding: 17px;
+      background: var(--panel);
+      color: var(--ink);
+
+      border: 2px solid var(--ink);
+      box-shadow: 7px 7px 0 var(--card-accent);
+
+      transition:
+        transform .22s ease,
+        box-shadow .22s ease;
+    }
+
+    .sp-project-card:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 10px 10px 0 var(--card-accent);
+    }
+
+    .sp-project-card[data-color="blue"] {
+      --card-accent: #c7d9f2;
+    }
+
+    .sp-project-card[data-color="yellow"] {
+      --card-accent: #f3dea0;
+    }
+
+    .sp-project-card[data-color="green"] {
+      --card-accent: #a9d4c7;
+    }
+
+    .sp-project-card[data-color="pink"] {
+      --card-accent: #e7bab0;
+    }
+
+    .sp-project-card[data-color="purple"] {
+      --card-accent: #cbb9eb;
+    }
+
+    .sp-project-card[data-color="mint"] {
+      --card-accent: #b7dfd6;
+    }
+
+    /* SCREENSHOT AREA */
+
+    .sp-project-image {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+
+      border: 2px solid var(--ink);
+      overflow: hidden;
+      background: var(--card-accent);
+    }
+
+    .sp-project-image img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+      transition: transform .35s ease;
+    }
+
+    .sp-project-card:hover .sp-project-image img {
+      transform: scale(1.025);
+    }
+
+    .sp-image-fallback {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+
+      padding: 20px;
+      background:
+        linear-gradient(
+          rgba(36,50,70,.07) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(36,50,70,.07) 1px,
+          transparent 1px
+        ),
+        var(--card-accent);
+      background-size: 20px 20px;
+
+      color: #243246;
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    .sp-image-fallback[hidden] {
+      display: none !important;
+    }
+
+    .sp-project-image::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 12px;
+      height: 12px;
+      background: var(--card-accent);
+      border-left: 2px solid var(--ink);
+      border-top: 2px solid var(--ink);
+      pointer-events: none;
+    }
+
+    /* CARD CONTENT */
+
+    .sp-project-content {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      min-width: 0;
+      padding: 20px 4px 3px;
+    }
+
+    .sp-project-category {
+      display: inline-block;
+      align-self: flex-start;
+      padding: 7px 10px;
+
+      background: var(--card-accent);
+      color: #243246;
+
+      border: 1px solid #243246;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+
+    .sp-project-name {
+      margin: 16px 0 11px;
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(18px, 1.75vw, 23px);
+      font-weight: 700;
+      line-height: 1.35;
+      letter-spacing: -.65px;
+      color: var(--ink);
+      text-transform: none;
+    }
+
+    .sp-project-description {
+      margin: 0 0 19px;
+      color: var(--ink);
+      opacity: .85;
+
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    /* TECH STACK */
+
+    .sp-tech-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: auto;
+      margin-bottom: 20px;
+    }
+
+    .sp-tech {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 6px 10px;
+
+      border: 1px solid var(--ink);
+      background: transparent;
+      color: var(--ink);
+
+      font-size: 10px;
+      line-height: 1.2;
+    }
+
+    /* ACTION BUTTONS */
+
+    .sp-project-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .sp-details-btn,
+    .sp-live-link {
+      display: inline-flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+
+      min-height: 42px;
+      padding: 11px 14px;
+
+      border: 2px solid var(--ink);
+      border-radius: 0;
+
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+
+      transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+    }
+
+    .sp-details-btn {
+      flex: 1;
+      background: var(--ink);
+      color: var(--panel);
+      box-shadow: 3px 3px 0 var(--card-accent);
+    }
+
+    .sp-live-link {
+      background: var(--card-accent);
+      color: #243246;
+      border-color: #243246;
+    }
+
+    .sp-details-btn:hover,
+    .sp-live-link:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 5px 5px 0 var(--card-accent);
+    }
+
+    /* ==========================================
+       PROJECT DETAIL MODAL
+       ========================================== */
+
+    .sp-dialog {
+      width: min(850px, calc(100% - 32px));
+      max-height: min(88vh, 900px);
+      overflow-y: auto;
+
+      padding: 0;
+      margin: auto;
+
+      background: var(--panel);
+      color: var(--ink);
+      border: 2px solid var(--ink);
+      border-radius: 0;
+
+      box-shadow: 10px 10px 0 #95b2de;
+    }
+
+    .sp-dialog::backdrop {
+      background: rgba(8, 14, 25, .75);
+      backdrop-filter: blur(5px);
+    }
+
+    .sp-dialog-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+
+      padding: 19px 24px;
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .sp-dialog-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .06em;
+    }
+
+    .sp-dialog-close {
+      flex: none;
+      padding: 9px 12px;
+      border: 2px solid var(--ink);
+      background: var(--ink);
+      color: var(--panel);
+
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    .sp-dialog-body {
+      padding: 24px;
+    }
+
+    .sp-dialog-title {
+      margin: 0 0 23px;
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(23px, 3vw, 35px);
+      line-height: 1.22;
+      letter-spacing: -1px;
+      text-transform: none;
+    }
+
+    .sp-dialog-image {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+
+      margin-bottom: 25px;
+      border: 2px solid var(--ink);
+      background: #c7d9f2;
+    }
+
+    .sp-dialog-image img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .sp-dialog-image .sp-image-fallback {
+      background-color: #c7d9f2;
+    }
+
+    .sp-detail-heading {
+      margin: 24px 0 12px;
+      font-family: 'Space Mono', monospace;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .sp-dialog-overview {
+      font-size: 13px;
+      line-height: 1.85;
+      opacity: .9;
+    }
+
+    .sp-detail-points {
+      margin: 0;
+      padding-left: 22px;
+      font-size: 12px;
+      line-height: 1.9;
+    }
+
+    .sp-dialog-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 26px;
+    }
+
+    .sp-dialog-links a {
+      display: inline-flex;
+      padding: 12px 15px;
+
+      background: var(--ink);
+      color: var(--panel);
+      border: 2px solid var(--ink);
+
+      font-size: 11px;
+      text-decoration: none;
+    }
+
+    /* Responsive */
+
+    @media (max-width: 850px) {
+      .sp-project-grid {
+        grid-template-columns: 1fr;
+        gap: 26px;
+      }
+
+      .sp-project-name {
+        font-size: 22px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      #projects .sp-title {
+        font-size: 31px;
+        letter-spacing: -1px;
+      }
+
+      .sp-filters {
+        gap: 8px;
+      }
+
+      .sp-filter {
+        font-size: 10px;
+        padding: 10px 11px;
+      }
+
+      .sp-project-card {
+        padding: 12px;
+      }
+
+      .sp-project-content {
+        padding: 17px 3px 3px;
+      }
+
+      .sp-dialog-body {
+        padding: 16px;
+      }
+
+      .sp-dialog-header {
+        padding: 15px 16px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .sp-project-card,
+      .sp-project-image img,
+      .sp-filter,
+      .sp-details-btn,
+      .sp-live-link {
+        transition: none;
+      }
+
+      .sp-dialog::backdrop {
+        backdrop-filter: none;
+      }
+    }
+  </style>
+
+  
+<style>
+  /* Perbesar tulisan di dalam skill tags putih */
+ 
+#skills .spc-skill-card .spc-chip {
+  font-size: 15px !important;
+  line-height: 1.4 !important;
+  padding: 8px 12px !important;
+}
+
+
+  @media (max-width: 600px) {
+    #skills .spc-skill-card .spc-chip {
+      font-size: 15px !important;
+    }
+  }
+</style>
+
+</head>
+
+<body>
+  <div class="wrap">
+
+    <!-- NAVBAR -->
+    <nav class="nav">
+      <a class="brand" href="#home">
+        <span class="logo">
+          <i></i><i></i><i></i><i></i>
+        </span>
+        PORTFOLIO
+      </a>
+
+      <div class="navlinks">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+        <button class="theme"
+                id="themeBtn"
+                aria-label="Switch to dark mode">☼</button>
+      </div>
+    </nav>
+
+    <main>
+
+      <!-- ==================== HERO ==================== -->
+      <section class="hero" id="home">
+
+        <!-- Hero pixel decorations -->
+        <div class="hero-decor" aria-hidden="true">
+
+          <div class="hero-shape shape-coral-l">
+            <span></span><span></span>
+            <span></span><span></span>
+          </div>
+
+          <div class="hero-stack-left">
+            <span class="pixel blue" style="grid-area:1/3"></span>
+            <span class="pixel blue" style="grid-area:2/1"></span>
+            <span class="pixel blue" style="grid-area:2/2"></span>
+            <span class="pixel blue" style="grid-area:2/3"></span>
+            <span class="pixel yellow" style="grid-area:3/1"></span>
+            <span class="pixel yellow" style="grid-area:3/2"></span>
+            <span class="pixel blue" style="grid-area:3/3"></span>
+            <span class="pixel yellow" style="grid-area:4/1"></span>
+            <span class="pixel coral" style="grid-area:4/2"></span>
+            <span class="pixel coral" style="grid-area:4/3"></span>
+            <span class="pixel coral" style="grid-area:4/4"></span>
+          </div>
+
+          <div class="hero-shape shape-mint-t">
+            <span></span><span></span>
+            <span></span><span></span>
+          </div>
+
+          <span class="hero-mini-pixel pixel-one"></span>
+          <span class="hero-mini-pixel pixel-two"></span>
+          <span class="hero-mini-pixel pixel-three"></span>
+
+        </div>
+
+        <div class="hero-grid">
+
+          <div class="hero-content">
+            <h1 class="title">
+              WELCOME.<br>
+              EVERY PIECE<br>
+              <span class="highlight">HAS A PURPOSE.</span>
+            </h1>
+
+            <div class="hero-actions">
+              <a class="button" href="#projects">
+                VIEW MY WORK <span>↗</span>
+              </a>
+
+              <a class="button ghost"
+                 href="assets/resume-ayundini.pdf"
+                 download>
+                DOWNLOAD CV <span>↓</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- DATA LIFECYCLE -->
+          <div class="piece-board hero-cycle"
+               aria-label="Animated data lifecycle: Raw Data, ETL, Data Warehouse, Query, Insight, New Question, New Data, and back to Raw Data">
+
+            <div class="flow-header">
+              <div>
+                <div class="flow-kicker">THE DATA LIFECYCLE</div>
+                <div class="flow-subtitle">
+                  ONE QUESTION LEADS TO ANOTHER
+                </div>
+              </div>
+
+              <button class="flow-expand"
+                      id="flowExpand"
+                      type="button"
+                      aria-label="Open full data lifecycle diagram"
+                      title="View the full flow">
+                ⤢ <span>EXPAND</span>
+              </button>
+            </div>
+
+            <div class="flow-stage flow-stage-compact"
+                 id="flowCompact"
+                 aria-label="Seven stages of a data pipeline">
+            </div>
+
+            <div class="flow-footer">
+              <span class="flow-live-indicator"
+                    aria-hidden="true"></span>
+
+              <span id="flowStatus" aria-live="off">
+                01 → 02 · RAW DATA → ETL
+              </span>
+
+              <button id="flowPause"
+                      class="flow-play-control"
+                      type="button"
+                      aria-label="Pause data flow animation">
+                Ⅱ PAUSE
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ==================== ABOUT ME ==================== -->
+      <section class="section about-section" id="about">
+
+        <div class="about-layout">
+
+          <!-- TETRIS PHOTO -->
+          <div class="about-photo-wrap">
+            <div class="photo-reveal" id="photoReveal">
+              <img
+                src="assets/profile-ayundini.png"
+                alt="Portrait of Ayundini Nursyahrin"
+                class="about-photo-img">
+
+              <div class="tetromino-build"
+                   id="tetrominoBuild"
+                   aria-hidden="true"></div>
+            </div>
+          </div>
+
+          <!-- ABOUT INFORMATION -->
+          <div class="about-info">
+
+            <h2 class="about-heading">
+              Hi, I'm Ayundini Nursyahrin.
+            </h2>
+
+            <p class="about-summary">
+              I'm a Computer Science undergraduate at BINUS
+              University with academic project experience in
+              data analytics, database management, and software
+              development. I'm interested in using technology
+              to solve practical problems, improve workflows,
+              and create useful digital solutions.
+            </p>
+
+            <div class="education-grid">
+
+              <!-- UNIVERSITY -->
+              <div class="education-card edu-university">
+                <span class="edu-pixel" aria-hidden="true"></span>
+
+                <span class="edu-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2"
+                       stroke-linecap="square">
+                    <path d="M2 9 12 4l10 5-10 5L2 9Z"/>
+                    <path d="M6 11v6c3.7 2.7 8.3 2.7 12 0v-6"/>
+                    <path d="M22 9v7"/>
+                  </svg>
+                </span>
+
+                <div class="edu-content">
+                  <span class="edu-label">UNIVERSITY</span>
+                  <strong class="edu-value">BINUS University</strong>
+                  <small class="edu-detail">Jakarta, Indonesia</small>
+                </div>
+              </div>
+
+              <!-- MAJOR -->
+              <div class="education-card edu-major">
+                <span class="edu-pixel" aria-hidden="true"></span>
+
+                <span class="edu-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2">
+                    <path d="M12 6c-2.7-2-5.7-2-9-1v14c3.3-1 6.3-1 9 1 2.7-2 5.7-2 9-1V5c-3.3-1-6.3-1-9 1Z"/>
+                    <path d="M12 6v14"/>
+                  </svg>
+                </span>
+
+                <div class="edu-content">
+                  <span class="edu-label">MAJOR</span>
+                  <strong class="edu-value">Computer Science</strong>
+                  <small class="edu-detail">Undergraduate Program</small>
+                </div>
+              </div>
+
+              <!-- SPECIALIZATION -->
+              <div class="education-card edu-specialization">
+                <span class="edu-pixel" aria-hidden="true"></span>
+
+                <span class="edu-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2">
+                    <ellipse cx="12" cy="5" rx="9" ry="3"/>
+                    <path d="M3 5v7c0 1.7 4 3 9 3s9-1.3 9-3V5"/>
+                    <path d="M3 12v7c0 1.7 4 3 9 3s9-1.3 9-3v-7"/>
+                  </svg>
+                </span>
+
+                <div class="edu-content">
+                  <span class="edu-label">SPECIALIZATION</span>
+                  <strong class="edu-value">Database Technology</strong>
+                  <small class="edu-detail">Data Systems &amp; Analytics</small>
+                </div>
+              </div>
+
+              <!-- GPA -->
+              <div class="education-card edu-gpa">
+                <span class="edu-pixel" aria-hidden="true"></span>
+
+                <span class="edu-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2">
+                    <path d="M3 21h18"/>
+                    <rect x="5" y="13" width="3" height="8"/>
+                    <rect x="11" y="9" width="3" height="12"/>
+                    <rect x="17" y="4" width="3" height="17"/>
+                  </svg>
+                </span>
+
+                <div class="edu-content">
+                  <span class="edu-label">GPA</span>
+                  <strong class="edu-value">3.43 / 4.00</strong>
+                  <small class="edu-detail">Through 4th semester</small>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== PROJECTS ==================== -->
+      <section class="section" id="projects">
+
+        <h2 class="sp-title">BUILT &amp; EXPLORED.</h2>
+
+        <!-- CATEGORY FILTERS -->
+        <div class="sp-filters"
+             role="group"
+             aria-label="Filter projects">
+
+          <button class="sp-filter active"
+                  type="button"
+                  data-filter="all"
+                  aria-pressed="true">
+            ALL PROJECTS
+          </button>
+
+          <button class="sp-filter"
+                  type="button"
+                  data-filter="analytics"
+                  aria-pressed="false">
+            DATA ANALYTICS &amp; BI
+          </button>
+
+          <button class="sp-filter"
+                  type="button"
+                  data-filter="engineering"
+                  aria-pressed="false">
+            DATA ENGINEERING
+          </button>
+
+          <button class="sp-filter"
+                  type="button"
+                  data-filter="development"
+                  aria-pressed="false">
+            WEB &amp; APP DEVELOPMENT
+          </button>
+
+        </div>
+
+        <!-- CARDS GENERATED BELOW -->
+        <div class="sp-project-grid"
+             id="featuredProjects"></div>
+
+      </section>
+
+      <!-- ==================== SKILLS ==================== -->
+      <section class="section" id="skills">
+
+        <div class="eyebrow">
+          05&nbsp; SKILLS SECTION
+        </div>
+
+        <div class="about-text small-title">
+          TOOLS I USE<br>
+          TO BUILD<br>
+          <em class="yellow">THE PIECES.</em>
+        </div>
+
+        <div class="skills-tabs">
+          <button class="active">DATA</button>
+          <button>DEVELOPMENT</button>
+          <button>OTHERS</button>
+        </div>
+
+        <div class="skill-grid">
+          <div class="skill">🐍<small>Python</small></div>
+          <div class="skill">SQL<small>SQL</small></div>
+          <div class="skill">◉<small>Power BI</small></div>
+          <div class="skill">▥<small>BI</small></div>
+          <div class="skill">✣<small>Tableau</small></div>
+          <div class="skill">▣<small>Excel</small></div>
+          <div class="skill">⚛<small>React</small></div>
+          <div class="skill">◉<small>Postgres</small></div>
+        </div>
+
+      </section>
+
+      <!-- ==================== CONTACT ==================== -->
+      <section class="contact-section" id="contact">
+  <div class="contact-shell">
+    <div class="contact-top">
+      <div class="contact-copy">
+        <div class="contact-kicker">06 · CONTACT</div>
+
+        <h2 class="contact-title">
+          <span id="contactTyped"></span><span class="typing-caret">|</span>
+        </h2>
+
+        <p class="contact-desc">
+          I’m open to internship opportunities, collaborations, and new ideas.
+          If you have something in mind, feel free to reach out.
+        </p>
+
+        <a class="contact-main-btn" href="mailto:ayundinin0508@gmail.com">
+          SAY HELLO <span>↗</span>
         </a>
+      </div>
 
-        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav-menu">
-          <span class="sr-only">Toggle navigation</span>
-          <span></span><span></span>
+      <div class="contact-visual" aria-hidden="true">
+        <div class="contact-blocks">
+          <span class="c-block b1"></span>
+          <span class="c-block b2"></span>
+          <span class="c-block b3"></span>
+          <span class="c-block b4"></span>
+          <span class="c-block b5"></span>
+          <span class="c-block b6"></span>
+          <span class="c-block b7"></span>
+          <span class="c-block b8"></span>
+          <span class="c-block b9"></span>
+          <span class="c-block b10"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-links-grid">
+      <a class="contact-tile" href="mailto:ayundinin0508@gmail.com">
+        <small>EMAIL</small>
+        <strong>ayundinin0508@gmail.com</strong>
+      </a>
+
+      <a class="contact-tile" href="https://wa.me/6282271000702" target="_blank">
+        <small>WHATSAPP</small>
+        <strong>+62 822-7100-0702</strong>
+      </a>
+
+      <a class="contact-tile" href="https://github.com/ayundini586" target="_blank">
+        <small>GITHUB</small>
+        <strong>@ayundini586</strong>
+      </a>
+
+      <a class="contact-tile" href="https://www.linkedin.com/" target="_blank">
+        <small>LINKEDIN</small>
+        <strong>View Profile</strong>
+      </a>
+    </div>
+  </div>
+</section>
+
+    </main>
+  </div>
+
+  <!-- ==================== PROJECT DETAIL MODAL ==================== -->
+  <dialog id="projectDialog"
+          class="sp-dialog"
+          aria-labelledby="projectDialogTitle">
+
+    <div class="sp-dialog-header">
+      <span class="sp-dialog-label" id="projectDialogCategory">
+        PROJECT DETAILS
+      </span>
+
+      <button class="sp-dialog-close"
+              type="button"
+              id="projectDialogClose">
+        ✕ CLOSE
+      </button>
+    </div>
+
+    <div class="sp-dialog-body">
+
+      <h2 class="sp-dialog-title"
+          id="projectDialogTitle"></h2>
+
+      <div class="sp-dialog-image" id="projectDialogImage">
+        <img id="projectDialogImg" alt="">
+        <div class="sp-image-fallback"
+             id="projectDialogFallback"
+             hidden>
+          SCREENSHOT COMING SOON
+        </div>
+      </div>
+
+      <h3 class="sp-detail-heading">OVERVIEW</h3>
+      <p class="sp-dialog-overview"
+         id="projectDialogOverview"></p>
+
+      <h3 class="sp-detail-heading">KEY HIGHLIGHTS</h3>
+      <ul class="sp-detail-points"
+          id="projectDialogHighlights"></ul>
+
+      <h3 class="sp-detail-heading">TOOLS &amp; TECHNOLOGIES</h3>
+      <div class="sp-tech-list"
+           id="projectDialogTech"></div>
+
+      <div class="sp-dialog-links"
+           id="projectDialogLinks"></div>
+
+    </div>
+  </dialog>
+
+  <!-- ==================== DATA LIFECYCLE MODAL ==================== -->
+  <dialog id="flowDialog"
+          class="flow-dialog"
+          aria-labelledby="flowDialogTitle">
+
+    <div class="flow-dialog-header">
+      <div>
+        <div class="flow-dialog-eyebrow">
+          DATA ENGINEERING / FROM DATA TO DECISIONS
+        </div>
+
+        <h2 id="flowDialogTitle">
+          THE DATA LIFECYCLE
+          <span>/ ONE QUESTION LEADS TO ANOTHER</span>
+        </h2>
+      </div>
+
+      <button id="flowClose"
+              class="flow-close"
+              type="button"
+              aria-label="Close lifecycle diagram">
+        ✕ CLOSE
+      </button>
+    </div>
+
+    <div class="flow-stage flow-stage-wide"
+         id="flowExpanded"
+         aria-label="Full data lifecycle diagram">
+    </div>
+
+    <div class="flow-dialog-footer">
+      <div>
+        ● FLOW ACTIVE: INSIGHT → QUESTION → NEW DATA
+      </div>
+
+      <div class="flow-dialog-actions">
+        <button id="flowReplay" type="button">
+          ↻ REPLAY
         </button>
 
-        <div class="nav-menu" id="nav-menu" data-nav-menu>
-          <div class="nav-links">
-            <a href="#about">About</a>
-            <a href="#projects">Projects</a>
-            <a href="#stack">Stack</a>
-            <a href="#experience">Experience</a>
-            <a href="#contact">Contact</a>
-          </div>
-          <a class="nav-resume" href="assets/resume-ayundini.pdf" target="_blank" rel="noopener noreferrer">Resume <span aria-hidden="true">↗</span></a>
-        </div>
-      </nav>
-    </header>
+        <button id="flowModalPause" type="button">
+          Ⅱ PAUSE
+        </button>
+      </div>
+    </div>
+  </dialog>
 
-    <main id="main-content">
-      <section class="hero" aria-labelledby="hero-title">
-        <div class="ambient-grid" aria-hidden="true"></div>
-        <div class="blob blob-blue" aria-hidden="true"></div>
-        <div class="blob blob-lavender" aria-hidden="true"></div>
-        <div class="blob blob-mint" aria-hidden="true"></div>
+  <!-- EXISTING ANIMATIONS -->
+  <script src="script.js"></script>
+  <script src="flow.js"></script>
 
-        <div class="hero-inner shell">
-          <div class="hero-copy">
-            <h1 id="hero-title" class="hero-title" aria-label="Building with curiosity and systems.">
-              <span class="title-line"><span class="word">Building with</span></span>
-              <span class="title-line"><span class="word accent-word">Curiosity</span></span>
-              <span class="title-line"><span class="word">and Systems.</span></span>
-            </h1>
-            <p class="hero-intro hero-animate">A collection of projects across data, databases, visual analytics, and digital experiences.</p>
+  <!-- NEW PROJECTS FUNCTIONALITY -->
+  <script>
+    (() => {
 
-            <div class="hero-actions hero-animate">
-              <a class="button button-primary" href="#projects">View projects <span aria-hidden="true">↘</span></a>
-              <a class="button button-secondary" href="assets/resume-ayundini.pdf" target="_blank" rel="noopener noreferrer">Download resume <span aria-hidden="true">↗</span></a>
-            </div>
+      /* =====================================
+         PROJECT DATA
+         Add verified live/github URLs later
+         ===================================== */
 
-            <div class="availability hero-animate">
-              <span class="availability-dot" aria-hidden="true"></span>
-              <span>Open to internship</span>
-              <span class="availability-line" aria-hidden="true"></span>
-              <span>Jakarta, Indonesia</span>
-            </div>
-          </div>
+      const projects = [
+        {
+          title: "Customer Behavior & Marketing Analytics",
+          category: "analytics",
+          categoryLabel: "DATA ANALYTICS & BI",
+          color: "blue",
+          image: "assets/projects/customer-analysis.png",
+          description:
+            "Explored customer behavior and marketing patterns through data preparation, exploratory analysis, and machine learning techniques.",
+          overview:
+            "A data analytics project focused on understanding customer behavior and exploring patterns that can support marketing-related decisions. The workflow includes preparing data, exploratory analysis, and applying analytical techniques.",
+          highlights: [
+            "Data cleaning and preparation using Python",
+            "Exploratory data analysis of customer behavior",
+            "Machine learning exploration and interpretation"
+          ],
+          tech: ["Python", "Pandas", "EDA", "Machine Learning"],
+          liveUrl: "",
+          githubUrl: ""
+        },
+        {
+          title: "Employee Attrition HR Analytics",
+          category: "analytics",
+          categoryLabel: "DATA ANALYTICS & BI",
+          color: "yellow",
+          image: "assets/projects/employee-attrition.png",
+          description:
+            "Created HR analytics visualizations to explore employee attrition patterns and support data-driven workforce insights.",
+          overview:
+            "An HR analytics project exploring employee attrition through visual analysis. The project presents workforce-related information in a dashboard format to make patterns easier to review.",
+          highlights: [
+            "Exploration of employee attrition patterns",
+            "Data visualization for HR-related analysis",
+            "Dashboard presentation using Tableau"
+          ],
+          tech: ["Tableau", "HR Analytics", "Data Visualization"],
+          liveUrl: "",
+          githubUrl: ""
+        },
+        {
+          title: "Airline Flight Performance Data Warehouse",
+          category: "engineering",
+          categoryLabel: "DATA ENGINEERING",
+          color: "green",
+          image: "assets/projects/airline-dashboard.png",
+          description:
+            "Built a flight performance data warehouse using ETL processes, dimensional modeling, SQL, and an interactive BI dashboard.",
+          overview:
+            "An independent data warehouse project designed to analyze U.S. airline flight performance using 469,968 January 2015 flight records. The work covers data preprocessing, dimensional modeling, ETL implementation, SQL analysis, and dashboard development.",
+          highlights: [
+            "Prepared and processed flight data using Python",
+            "Designed a star-schema data warehouse",
+            "Developed ETL workflows using Pentaho",
+            "Analyzed airline delays and cancellations",
+            "Built an interactive Power BI dashboard"
+          ],
+          tech: ["Python", "MySQL", "Pentaho", "SQL", "Power BI"],
+          liveUrl: "",
+          githubUrl: ""
+        },
+        {
+          title: "EquiHire",
+          category: "development",
+          categoryLabel: "WEB & APP DEVELOPMENT",
+          color: "pink",
+          image: "assets/projects/equihire.png",
+          description:
+            "A web development project centered around a recruitment-related digital platform.",
+          overview:
+            "A web application project focused on recruitment-related workflows, combining frontend interface development with backend and database technologies.",
+          highlights: [
+            "Frontend interface development",
+            "Full-stack web application structure",
+            "Database integration"
+          ],
+          tech: ["React", "Express", "SQL Server"],
+          liveUrl: "",
+          githubUrl: ""
+        },
+        {
+          title: "MyFood+",
+          category: "development",
+          categoryLabel: "WEB & APP DEVELOPMENT",
+          color: "purple",
+          image: "assets/projects/myfood-plus.png",
+          description:
+            "A mobile application project focused on food-related interactions and an accessible user experience.",
+          overview:
+            "A mobile application project developed with React Native and PostgreSQL, involving mobile interface development and database-backed functionality.",
+          highlights: [
+            "Mobile application interface development",
+            "React Native implementation",
+            "Database-backed application functionality"
+          ],
+          tech: ["React Native", "PostgreSQL"],
+          liveUrl: "",
+          githubUrl: ""
+        },
+        {
+          title: "ShipDeCKK",
+          category: "development",
+          categoryLabel: "WEB & APP DEVELOPMENT",
+          color: "mint",
+          image: "assets/projects/shipdeckk.png",
+          description:
+            "A frontend web development project built using HTML, CSS, and JavaScript.",
+          overview:
+            "A web development project that applies core frontend technologies to build and style an interactive website interface.",
+          highlights: [
+            "Website layout and styling",
+            "Interactive frontend elements",
+            "HTML, CSS, and JavaScript implementation"
+          ],
+          tech: ["HTML", "CSS", "JavaScript"],
+          liveUrl: "",
+          githubUrl: ""
+        }
+      ];
 
-          <div class="data-stage hero-animate" data-data-stage aria-label="Abstract data pipeline from raw data to business intelligence">
-            <div class="stage-meta"><span>DATA FLOW / 001</span><span>LIVE MODEL</span></div>
-            <div class="stage-orbit orbit-one" aria-hidden="true"></div>
-            <div class="stage-orbit orbit-two" aria-hidden="true"></div>
-            <svg class="connections" viewBox="0 0 560 560" fill="none" aria-hidden="true">
+      const grid = document.getElementById("featuredProjects");
+      const filterButtons =
+        [...document.querySelectorAll(".sp-filter")];
 
-  <path
-    id="flow-path-1"
-    class="connection-path"
-    d="M116 132 C190 102 202 198 282 189 S405 132 450 176"
-  />
+      const dialog = document.getElementById("projectDialog");
+      const dialogClose =
+        document.getElementById("projectDialogClose");
 
-  <path
-    id="flow-path-2"
-    class="connection-path"
-    d="M116 132 C112 237 210 242 226 323 S315 454 390 423"
-  />
+      const dialogTitle =
+        document.getElementById("projectDialogTitle");
+      const dialogCategory =
+        document.getElementById("projectDialogCategory");
+      const dialogOverview =
+        document.getElementById("projectDialogOverview");
+      const dialogHighlights =
+        document.getElementById("projectDialogHighlights");
+      const dialogTech =
+        document.getElementById("projectDialogTech");
+      const dialogLinks =
+        document.getElementById("projectDialogLinks");
+      const dialogImg =
+        document.getElementById("projectDialogImg");
+      const dialogFallback =
+        document.getElementById("projectDialogFallback");
 
-  <path
-    id="flow-path-3"
-    class="connection-path"
-    d="M282 189 C341 225 313 315 390 423"
-  />
+      function escapeHTML(text) {
+        return String(text)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;");
+      }
 
-  <path
-    id="flow-path-4"
-    class="connection-path"
-    d="M226 323 C296 298 362 252 450 176"
-  />
+      function makeTechTags(tech) {
+        return tech.map(item =>
+          `<span class="sp-tech">${escapeHTML(item)}</span>`
+        ).join("");
+      }
 
-  <circle class="flow-particle" r="4">
-    <animateMotion dur="4s" repeatCount="indefinite">
-      <mpath href="#flow-path-1" />
-    </animateMotion>
-  </circle>
+      function makeCard(project, index) {
+        const liveLink = project.liveUrl
+          ? `<a class="sp-live-link"
+                href="${escapeHTML(project.liveUrl)}"
+                target="_blank"
+                rel="noopener noreferrer">
+                LIVE VIEW ↗
+             </a>`
+          : "";
 
-  <circle class="flow-particle" r="4">
-    <animateMotion dur="4.8s" begin="1s" repeatCount="indefinite">
-      <mpath href="#flow-path-2" />
-    </animateMotion>
-  </circle>
+        return `
+          <article class="sp-project-card"
+                   data-color="${project.color}">
 
-  <circle class="flow-particle" r="4">
-    <animateMotion dur="3.6s" begin="0.8s" repeatCount="indefinite">
-      <mpath href="#flow-path-3" />
-    </animateMotion>
-  </circle>
+            <div class="sp-project-image">
+              <img
+                src="${escapeHTML(project.image)}"
+                alt="Screenshot of ${escapeHTML(project.title)}"
+                loading="lazy">
 
-  <circle class="flow-particle" r="4">
-    <animateMotion dur="4.2s" begin="1.6s" repeatCount="indefinite">
-      <mpath href="#flow-path-4" />
-    </animateMotion>
-  </circle>
-
-</svg>
-
-            <div class="data-node node-sql" data-depth="10">
-              <span class="node-pulse"></span><strong>SQL</strong><small>RAW / 04</small>
-            </div>
-            <div class="data-node node-etl" data-depth="18">
-              <span class="node-pulse"></span><strong>ETL</strong><small>TRANSFORM</small>
-            </div>
-            <div class="warehouse" data-depth="12" aria-label="Data warehouse">
-              <div class="warehouse-top"></div>
-              <div class="warehouse-body">
-                <span>DW</span><small>WAREHOUSE</small>
+              <div class="sp-image-fallback" hidden>
+                ${escapeHTML(project.title)}
               </div>
             </div>
-            <div class="data-node node-bi" data-depth="22">
-              <span class="node-pulse"></span><strong>BI</strong><small>INSIGHTS</small>
-            </div>
 
-            <div class="stage-readout" aria-hidden="true">
-              <span><i></i>INGEST</span><span><i></i>MODEL</span><span><i></i>QUERY</span>
-            </div>
-          </div>
-        </div>
+            <div class="sp-project-content">
 
-        <div class="scroll-cue shell hero-animate" aria-hidden="true">
-          <span>Scroll to explore</span><i></i>
-        </div>
-      </section>
+              <span class="sp-project-category">
+                ${escapeHTML(project.categoryLabel)}
+              </span>
 
-      <section class="tech-marquee" aria-label="Core technologies">
-        <div class="marquee-track">
-          <p>DATABASE TECHNOLOGY <span>✦</span> DATA ENGINEERING <span>✦</span> DATA ANALYTICS <span>✦</span> BUSINESS INTELLIGENCE <span>✦</span> SQL <span>✦</span> DATA VISUALIZATION <span>✦</span> CONTINUOUS LEARNING <span>✦</span></p>
-          <p aria-hidden="true">CURIOUS THINKING <span>✦</span> STRUCTURED PROBLEM-SOLVING <span>✦</span> CLEAR COMMUNICATION <span>✦</span> THOUGHTFUL COLLABORATION <span>✦</span> CONTINUOUS LEARNING <span>✦</span></p>
-        </div>
-      </section>
+              <h3 class="sp-project-name">
+                ${escapeHTML(project.title)}
+              </h3>
 
-      <section class="about-section" id="about" aria-labelledby="about-title">
-  <div class="about-glow about-glow-blue" aria-hidden="true"></div>
-  <div class="about-glow about-glow-purple" aria-hidden="true"></div>
-
-  <div class="shell about-layout">
-
-    <div class="about-lead reveal">
-      <p class="section-label">About <span>/</span> 01</p>
-
-      <h2 id="about-title">Hi, I’m Ayundini Nursyahrin.</h2>
-
-      <img
-        class="about-lead-photo"
-        src="assets/profile-ayundini.png"
-        alt="Ayundini Nursyahrin"
-        width="420"
-        height="560"
-      />
-    </div>
-
-    <div class="about-detail reveal reveal-delay">
-
-      <div class="about-profile">
-        <p>
-          I’m interested in how well-structured data can become useful systems,
-          clearer insights, and practical solutions.
-        </p>
-      </div>
-
-      <p>
-        Through academic and collaborative projects, I’m building experience
-        in data analysis, visualization, data warehousing, and web-based
-        systems. I enjoy breaking down problems, learning through hands-on
-        work, and contributing thoughtfully as part of a team.
-      </p>
-
-      <div class="about-process">
-        <div class="about-process-heading">
-          <span>HOW I WORK WITH DATA</span>
-        </div>
-
-        <div class="about-process-list">
-
-          <article class="about-process-item">
-            <span class="about-process-number">01</span>
-            <div>
-              <h3>Understand</h3>
-              <p>
-                Start with the problem and what the data needs to answer.
+              <p class="sp-project-description">
+                ${escapeHTML(project.description)}
               </p>
+
+              <div class="sp-tech-list">
+                ${makeTechTags(project.tech)}
+              </div>
+
+              <div class="sp-project-actions">
+                <button
+                  class="sp-details-btn"
+                  type="button"
+                  data-details="${index}">
+                  VIEW DETAILS <span>↗</span>
+                </button>
+
+                ${liveLink}
+              </div>
+
             </div>
           </article>
+        `;
+      }
 
-          <article class="about-process-item">
-            <span class="about-process-number">02</span>
-            <div>
-              <h3>Structure</h3>
-              <p>
-                Organize data into clear, usable systems.
-              </p>
-            </div>
-          </article>
+      function setupImageFallbacks() {
+        grid.querySelectorAll(".sp-project-image").forEach(box => {
+          const img = box.querySelector("img");
+          const fallback = box.querySelector(".sp-image-fallback");
 
-          <article class="about-process-item">
-            <span class="about-process-number">03</span>
-            <div>
-              <h3>Analyze</h3>
-              <p>
-                Explore patterns and relationships to find useful insights.
-              </p>
-            </div>
-          </article>
+          function showFallback() {
+            img.style.display = "none";
+            fallback.hidden = false;
+          }
 
-          <article class="about-process-item">
-            <span class="about-process-number">04</span>
-            <div>
-              <h3>Communicate</h3>
-              <p>
-                Turn findings into clear visualizations and practical outcomes.
-              </p>
-            </div>
-          </article>
+          img.addEventListener("error", showFallback);
 
-        </div>
-      </div>
+          if (img.complete && img.naturalWidth === 0) {
+            showFallback();
+          }
+        });
+      }
 
-    </div>
-  </div>
-</section>
+      function renderProjects(category = "all") {
+        grid.innerHTML = projects
+          .map((project, index) => ({ project, index }))
+          .filter(({ project }) =>
+            category === "all" || project.category === category
+          )
+          .map(({ project, index }) =>
+            makeCard(project, index)
+          )
+          .join("");
 
-      <section class="education-section" aria-labelledby="education-title">
-  <div class="shell education-layout">
+        setupImageFallbacks();
+      }
 
-    <div class="section-intro reveal">
-      <p class="section-label">Education <span>/</span> 02</p>
+      /* FILTER FUNCTIONALITY */
 
-      <h2 id="education-title">
-        From databases to data-driven systems.
-      </h2>
-    </div>
+      filterButtons.forEach(button => {
+        button.addEventListener("click", () => {
+          const category = button.dataset.filter;
 
-    <article class="education-card reveal reveal-delay">
+          filterButtons.forEach(item => {
+            const active = item === button;
+            item.classList.toggle("active", active);
+            item.setAttribute("aria-pressed", String(active));
+          });
 
-      <span class="experience-date">SEP 2024 — PRESENT</span>
+          renderProjects(category);
+        });
+      });
 
-      <h3>BINUS University</h3>
+      /* DETAIL MODAL */
 
-      <p class="education-degree">
-        Bachelor of Computer Science
-      </p>
+      function openProject(index) {
+        const project = projects[index];
+        if (!project) return;
 
-      <div class="education-divider"></div>
+        dialogTitle.textContent = project.title;
+        dialogCategory.textContent = project.categoryLabel;
+        dialogOverview.textContent = project.overview;
 
-      <div class="education-highlight">
-        <div>
-          <span class="education-label">SPECIALIZATION</span>
-          <strong>Database Technology</strong>
-        </div>
+        dialogHighlights.replaceChildren();
 
-        <div>
-          <span class="education-label">GPA</span>
-          <strong>3.43 / 4.00</strong>
-        </div>
-      </div>
+        project.highlights.forEach(highlight => {
+          const li = document.createElement("li");
+          li.textContent = highlight;
+          dialogHighlights.appendChild(li);
+        });
 
-      <div class="education-divider"></div>
+        dialogTech.innerHTML = makeTechTags(project.tech);
+        dialogLinks.replaceChildren();
 
-      <div class="education-coursework">
-        <span class="education-label">RELEVANT COURSEWORK</span>
+        if (project.liveUrl) {
+          const link = document.createElement("a");
+          link.href = project.liveUrl;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.textContent = "LIVE VIEW ↗";
+          dialogLinks.appendChild(link);
+        }
 
-        <p>
-          Database Systems · Data Engineering · Data Analytics<br />
-          Web Application Development · Software Engineering
-        </p>
-      </div>
+        if (project.githubUrl) {
+          const link = document.createElement("a");
+          link.href = project.githubUrl;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.textContent = "VIEW GITHUB ↗";
+          dialogLinks.appendChild(link);
+        }
 
-    </article>
+        dialogImg.style.display = "block";
+        dialogFallback.hidden = true;
+        dialogImg.alt = `Screenshot of ${project.title}`;
 
-  </div>
-</section>
+        dialogImg.onload = () => {
+          dialogImg.style.display = "block";
+          dialogFallback.hidden = true;
+        };
 
-      <section class="projects-section" id="projects" aria-labelledby="projects-title">
-        <div class="projects-glow" aria-hidden="true"></div>
-        <div class="shell">
-          <header class="projects-heading reveal">
-            <p class="section-label">Projects <span>/</span> 03</p>
-            <div class="projects-heading-row">
-              <h2 id="projects-title">Things I’ve built.</h2>
-            </div>
-          </header>
+        dialogImg.onerror = () => {
+          dialogImg.style.display = "none";
+          dialogFallback.hidden = false;
+          dialogFallback.textContent = project.title;
+        };
 
-          <div id="featured-project"></div>
+        dialogImg.src = project.image;
 
-          <div class="project-grid" id="project-grid" aria-label="Additional projects"></div>
+        dialog.showModal();
+      }
 
-          <noscript>
-            <p class="projects-noscript">Enable JavaScript to view the project collection.</p>
-          </noscript>
-        </div>
-      </section>
+      grid.addEventListener("click", event => {
+        const button = event.target.closest("[data-details]");
+        if (!button) return;
 
-      <section class="stack-section" id="stack" aria-labelledby="stack-title">
-        <div class="shell">
-          <div class="section-intro reveal">
-            <p class="section-label">Stack <span>/</span> 04</p>
-            <h2 id="stack-title">Tools I use to move from raw data to useful systems.</h2>
-          </div>
-          <div class="tool-logo-grid" aria-label="Key tools">
-            <span aria-label="Python"><img src="https://cdn.simpleicons.org/python" alt="Python" /></span>
-            <span aria-label="MySQL"><img src="https://cdn.simpleicons.org/mysql" alt="MySQL" /></span>
-            <span aria-label="Power BI"><svg class="powerbi-mark" viewBox="0 0 64 64" role="img" aria-label="Power BI"><path d="M10 46h8V26h-8v20Zm12 0h8V17h-8v29Zm12 0h8V9h-8v37Zm12 0h8V22h-8v24Z" fill="#F2C811"/><path d="M14 52h40" stroke="#F2C811" stroke-width="4" stroke-linecap="round"/></svg></span>
-            <span aria-label="Tableau"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/tableau.svg" alt="Tableau" /></span>
-            <span aria-label="Figma"><img src="https://cdn.simpleicons.org/figma" alt="Figma" /></span>
-            <span aria-label="Git"><img src="https://cdn.simpleicons.org/git" alt="Git" /></span>
-            <span aria-label="GitHub"><img src="https://cdn.simpleicons.org/github" alt="GitHub" /></span>
-          </div>
-          <div class="stack-grid">
-            <article class="stack-group reveal"><span class="stack-index">01</span><h3>Data &amp; databases</h3><p>Python · SQL · MySQL · Power BI · Tableau · Pentaho · Apache Airflow · Apache Spark · PySpark</p></article>
-            <article class="stack-group reveal"><span class="stack-index">02</span><h3>Programming</h3><p>Python · R · Java · C++ · HTML/CSS · JavaScript</p></article>
-            <article class="stack-group reveal"><span class="stack-index">03</span><h3>Workflow &amp; design</h3><p>Figma · Excel · Jupyter Notebook · Google Colab · VS Code · RStudio · Git · GitHub</p></article>
-            <article class="stack-group reveal"><span class="stack-index">04</span><h3>Languages</h3><p>Indonesian (native) · English (conversational)</p></article>
-          </div>
-        </div>
-      </section>
+        openProject(Number(button.dataset.details));
+      });
 
-      <section class="experience-section" id="experience" aria-labelledby="experience-title">
-        <div class="shell">
-          <div class="section-intro reveal">
-            <p class="section-label">Experience <span>/</span> 05</p>
-            <h2 id="experience-title">Experience shaped by people, projects, and responsibility.</h2>
-          </div>
-          <div class="experience-list">
-            <article class="experience-item reveal"><div><span class="experience-date">Mar 2026 — Present</span><h3>Personal Shopper</h3><p>Self-employed · Jakarta</p></div><p>Managing customer orders end-to-end, from product sourcing and payment coordination to communication and delivery arrangements.</p></article>
-            <article class="experience-item reveal"><div><span class="experience-date">Sep 2026 — Present</span><h3>Freshmen Partner</h3><p>Student Support, BINUS University · Volunteer</p></div><p>Supporting first-year students as they adapt to university life, academic activities, and the campus environment.</p></article>
-            <article class="experience-item reveal"><div><span class="experience-date">Jun — Nov 2025</span><h3>Publication &amp; Marketing Member</h3><p>HIMTI, BINUS University</p></div><p>Collaborating on content and promotional activities for student association programs and events.</p></article>
-            <article class="experience-item reveal"><div><span class="experience-date">2023 — 2024</span><h3>Secretary &amp; Event Committee</h3><p>SMATION 2023 · Fit Out Cup Vol. 1 &amp; 2 · Student Council</p></div><p>Coordinating documentation, event administration, publication, and cross-division preparation for student activities.</p></article>
-          </div>
-        </div>
-      </section>
+      dialogClose.addEventListener("click", () => {
+        dialog.close();
+      });
 
-      <section class="contact-section" id="contact" aria-labelledby="contact-title">
-        <div class="shell contact-layout">
-          <div class="section-intro reveal"><p class="section-label">Contact <span>/</span> 06</p><h2 id="contact-title">
-  Let’s <span>Connect.</span>
-</h2>
-</div>
-          <div class="contact-links reveal reveal-delay">
-<a href="mailto:ayundinin0508@gmail.com"><span>Email</span><strong>ayundinin0508@gmail.com</strong><span aria-hidden="true">↗</span></a>
-<a href="https://wa.me/6282271000702" target="_blank" rel="noopener noreferrer"><span>WhatsApp</span><strong>+62 822 7100 0702</strong><span aria-hidden="true">↗</span></a>
-<a href="https://www.linkedin.com/in/ayundini-nursyahrin/" target="_blank" rel="noopener noreferrer"><span>LinkedIn</span><strong>ayundini-nursyahrin</strong><span aria-hidden="true">↗</span></a>
-<a href="assets/resume-ayundini.pdf" target="_blank" rel="noopener noreferrer"><span>Resume</span><strong>Open CV PDF</strong><span aria-hidden="true">↗</span></a>
-</div>
-        </div>
-      </section>
-    </main>
+      dialog.addEventListener("click", event => {
+        if (event.target === dialog) {
+          dialog.close();
+        }
+      });
 
-    <dialog class="project-dialog" id="project-dialog" aria-labelledby="project-dialog-title">
-      <div class="project-dialog-panel" id="project-dialog-content"></div>
-    </dialog>
+      /* INITIAL PROJECT CARDS */
+      renderProjects();
 
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-    <script src="projects.js"></script>
-    <script src="script.js"></script>
-  </body>
+    })();
+  </script>
+
+
+<script src="projects-upgrade.js"></script>
+
+<script src="skills-contact-upgrade.js"></script>
+
+
+<script src="skills-contact-upgrade.js"></script>
+<script src="contact-redesign.js"></script>
+
+
+
+</body>
 </html>
