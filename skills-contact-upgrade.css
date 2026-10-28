@@ -156,3 +156,27 @@
   #skills.spc-skills .spc-logo-tile,#skills.spc-skills .spc-logo-label,
   #skills.spc-skills .spc-skill-card,#contact.spc-contact .spc-contact-link{transition:none;}
 }
+
+
+/* Force restore the four capability cards */
+
+#skills .spc-capabilities {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+#skills .spc-c4-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  visibility: visible !important;
+}
+
+@media (max-width: 750px) {
+  #skills .spc-c4-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
