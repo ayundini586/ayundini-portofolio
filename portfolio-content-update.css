@@ -1,0 +1,24 @@
+/* Fix: Experience card 01 was in the grid but hidden by reveal animation.
+   Only override the inserted Kandaka card, not the existing cards. */
+#experience .kandaka-native-card,
+#experience .kandaka-native-card.reveal,
+#experience .kandaka-native-card [class~="reveal"],
+#experience .kandaka-native-card [class~="hidden"],
+#experience .kandaka-native-card [data-aos],
+#experience .kandaka-native-card [data-reveal] {
+  opacity: 1 !important;
+  visibility: visible !important;
+  animation: none !important;
+  clip-path: none !important;
+}
+#experience .kandaka-native-card {
+  transform: none !important;
+}
+.portfolio-github-icon {
+  display: block;
+  width: 28px;
+  height: 28px;
+  max-width: 100%;
+  object-fit: contain;
+  flex: none;
+}

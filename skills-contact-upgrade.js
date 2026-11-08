@@ -30,7 +30,7 @@
   // unavailable, a compact text fallback appears instead of a broken image.
   const tools = [
     { name: 'Python', abbr: 'Py', icon: localAsset('python.svg'), tint: '#E3F1FF' },
-    { name: 'C', abbr: 'C', icon: devicon('c', 'c-original'), tint: '#E7EEFF' },
+    { name: 'Google Sheets', abbr: 'Sheets', icon: localAsset('google-sheets.svg'), tint: '#E7F4EA' },
     { name: 'C++', abbr: 'C++', icon: devicon('cplusplus', 'cplusplus-original'), tint: '#E3F0FF' },
     { name: 'Java', abbr: 'Ja', icon: devicon('java', 'java-original'), tint: '#FFF0E6' },
     { name: 'R', abbr: 'R', icon: devicon('r', 'r-original'), tint: '#E5EDFF' },
@@ -39,7 +39,7 @@
     { name: 'CSS3', abbr: 'CSS', icon: devicon('css3', 'css3-original'), tint: '#E4F0FF' },
     { name: 'React', abbr: 'Re', icon: localAsset('react.svg'), tint: '#E7F9FE' },
     { name: 'Express.js', abbr: 'Ex', icon: devicon('express', 'express-original'), tint: '#F1F1F5' },
-    { name: 'Django', abbr: 'Dj', icon: devicon('django', 'django-plain'), tint: '#E7F4EA' },
+    { name: 'PySpark', abbr: 'PSp', icon: localAsset('apachespark.svg'), tint: '#E6F1FF' },
     { name: 'MySQL', abbr: 'My', icon: devicon('mysql', 'mysql-original'), tint: '#EAF4FF' },
     { name: 'MariaDB', abbr: 'Ma', icon: devicon('mariadb', 'mariadb-original'), tint: '#EDF7EF' },
     { name: 'PostgreSQL', abbr: 'Pg', icon: devicon('postgresql', 'postgresql-original'), tint: '#E9F0FD' },
@@ -50,14 +50,14 @@
     { name: 'Tableau', abbr: 'Ta', icon: localAsset('tableau.svg'), tint: '#EBF1FC' },
     { name: 'Pentaho PDI', abbr: 'PDI', icon: localAsset('pentaho.svg'), tint: '#EEF1FF' },
     { name: 'Apache Airflow', abbr: 'Af', icon: devicon('apacheairflow', 'apacheairflow-original'), tint: '#E9F7EF' },
-    { name: 'Apache Spark / PySpark', abbr: 'Sp', icon: localAsset('apachespark.svg'), tint: '#E6F1FF' },
+    { name: 'Apache Spark', abbr: 'Sp', icon: localAsset('apachespark.svg'), tint: '#E6F1FF' },
     { name: 'Jupyter', abbr: 'Ju', icon: devicon('jupyter', 'jupyter-original'), tint: '#FFF0E5' },
     { name: 'Google Colab', abbr: 'Co', icon: devicon('googlecolab', 'googlecolab-original'), tint: '#FFF1DE' },
     { name: 'RStudio', abbr: 'Rs', icon: devicon('rstudio', 'rstudio-original'), tint: '#E7EFFF' },
     { name: 'VS Code', abbr: 'VS', icon: devicon('vscode', 'vscode-original'), tint: '#E3F2FF' },
     { name: 'Git', abbr: 'Git', icon: devicon('git', 'git-original'), tint: '#FFE9E1' },
     { name: 'GitHub', abbr: 'GH', icon: localAsset('github.svg'), tint: '#EDEBF6' },
-    { name: 'Microsoft Excel', abbr: 'XL', icon: localAsset('excel.svg'), tint: '#E5F4E9' },
+    { name: 'Excel', abbr: 'XL', icon: localAsset('excel.svg'), tint: '#E5F4E9' },
     { name: 'Microsoft Office', abbr: 'MS', icon: localAsset('office.svg'), tint: '#FFF0E5' }
   ];
 
@@ -133,59 +133,16 @@
         </div>
       </li>`).join('');
 
-    
-section.innerHTML = `
-  <div class="spc-inner">
+    section.innerHTML = `
+      <div class="spc-inner">
+        <header class="spc-heading-wrap">
+          <h2 class="spc-section-title">TOOLS OF THE TRADE.</h2>
+        </header>
+        <ul class="spc-logo-list" aria-label="Tools and technologies">
+          ${logoItems}
+        </ul>
 
-    <header class="spc-heading-wrap">
-      <h2 class="spc-section-title">
-        TOOLS OF THE TRADE.
-      </h2>
-    </header>
-
-    <ul class="spc-logo-list" aria-label="Tools and technologies">
-      ${logoItems}
-    </ul>
-
-    <div class="spc-capabilities">
-
-      <h3 class="spc-capabilities-title">
-        BEYOND THE TOOLS.
-      </h3>
-
-      <div class="spc-skills-grid">
-
-        ${skillCategories.map(category => `
-          <article
-            class="spc-skill-card"
-            style="--spc-card-tint:${category.color}"
-          >
-
-            <span class="spc-skill-symbol" aria-hidden="true">
-              ${escapeHTML(category.symbol)}
-            </span>
-
-            <h3>
-              ${escapeHTML(category.title)}
-            </h3>
-
-            <div class="spc-chip-list">
-              ${category.skills.map(skill => `
-                <span class="spc-chip">
-                  ${escapeHTML(skill)}
-                </span>
-              `).join('')}
-            </div>
-
-          </article>
-        `).join('')}
-
-      </div>
-    </div>
-
-  </div>
-`;
-
+      </div>`;
 
     for (const img of section.querySelectorAll('.spc-logo-image')) {
       img.addEventListener('load', () => img.parentElement?.classList.add('spc-logo-loaded'), { once: true });

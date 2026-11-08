@@ -1,48 +1,49 @@
-# Scattered Pieces — Data Lifecycle Animation FIX
+# Ayundini's Portfolio
 
-This is the **same portfolio** that was uploaded, with the Data Lifecycle animation corrected. No redesign of the remaining sections or project data was performed.
+My personal portfolio website showcasing my academic projects, technical skills, and experiences as a Computer Science student at BINUS University, specializing in Database Technology.
 
-## Run
+## About the Website
 
-1. Extract the ZIP into a new folder (keep the previous version as backup).
-2. Open the extracted folder in VS Code and run **Live Server** on `index.html`.
-3. No npm, build step, or additional dependencies are required.
+The portfolio includes:
+- About Me
+- Projects
+- Technical Skills
+- Work & Organizational Experience
+- Contact Information
 
-**Important:** The original uploaded ZIP contained `assets/.gitkeep` only, not the actual screenshots or photo. If you have additional images, keep or copy your existing `assets/` folder into this version. The animation itself does not require any image files.
+The website uses a retro-inspired design with interactive elements, animations, and light/dark mode.
 
-## What changed
+## Built With
 
-- Replaced the original hard-coded, conflicting CSS positions and fixed-coordinate particle animation.
-- Added **07 / New Data** to complete the seven-step cycle.
-- The diagram now follows **Raw Data → ETL → Data Warehouse → Query → Insight → New Question → New Data → Raw Data**.
-- The connecting arrows are calculated from the real positions of the cards, so they stay correct on resize/mobile.
-- One moving yellow pixel follows the arrows **in that exact order** while each active step is highlighted.
-- Click **EXPAND** to view the full layout like the provided reference (01–05 left-to-right, then 06 → 07, feeding back to 01).
-- **Pause / Play**, **Replay**, animation pause when out of view, light/dark mode and accessibility with reduced motion.
+- HTML
+- CSS
+- JavaScript
 
-## Files
+## Data Lifecycle Animation
 
-- `index.html` — unchanged page sections; replaced lifecycle markup and added expanded diagram.
-- `styles.css` — original site styles with obsolete lifecycle rules removed.
-- `script.js`, `projects.js` — same original site logic and content.
-- `flow.css`, `flow.js` — new isolated lifecycle animation.
+One of the interactive features is a data lifecycle visualization that shows how data moves through different stages:
 
-## Testing
+**Raw Data → ETL → Data Warehouse → Query → Insight → New Question → New Data**
 
-Tested programmatically on 1536, 1280, 390 and 320px viewports using Chromium. Checked all 7 arrows, no runtime errors, modal open/close, pause/resume/replay, dark theme and reduced-motion behavior. Visual tests used local fallback fonts because remote Google Fonts were not available in the test environment.
+The animation includes Play/Pause, Replay, and Expand controls to explore the full process.
 
+## Running Locally
 
-## Update: QUERY → INSIGHT
-Connector 04 → 05 is now a clean rectilinear route with square 90-degree corners, rather than a diagonal/curved reverse-L. It follows the free corridor on mobile. All other flow arrows and the moving pixel still use the same SVG paths.
+1. Clone or download this repository.
+2. Open the project folder in VS Code.
+3. Open `index.html` using Live Server.
 
+No additional installation or build process is required.
 
-## Perbaikan layout animasi (21 Oktober 2026)
-- Kartu 05 (INSIGHT) dan 06 (NEW QUESTION) dipindah lebih ke tengah pada panel desktop.
-- Jalur 04 → 05: garis horizontal ke kiri kemudian siku 90° turun menuju kartu 05.
-- Jalur 06 → 07: garis horizontal ke kiri kemudian siku 90° naik menuju kartu 07.
-- Animasi pixel bergerak mengikuti garis baru karena menggunakan SVG path yang sama.
-- View diperbesar, tampilan HP, dan seluruh section lain tetap dipertahankan.
+## Project Structure
 
+- `index.html` — Main website structure
+- `styles.css` — Main styling
+- `script.js` — Website interactions
+- `projects.js` — Project content
+- `flow.css` & `flow.js` — Data lifecycle animation
+- `assets/` — Images, icons, and other files
 
-## Final approved diagram
-Diagram mengikuti susunan visual yang disetujui: 01→02→03, 03↓04, 04↓←05, 05←06, 06←↑07, 07↑01. Kontrol Pause/Replay/Expand tetap berfungsi.
+## Portfolio
+
+[View My Portfolio](https://ayundini-portfolio.vercel.app/)
